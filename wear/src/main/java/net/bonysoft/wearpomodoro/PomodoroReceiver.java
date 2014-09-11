@@ -12,8 +12,6 @@ import android.support.v4.app.NotificationManagerCompat;
 public class PomodoroReceiver extends BroadcastReceiver {
     public static final String ACTION_START = "net.bonysoft.wearpomodoro.ACTION_START";
     public static final String ACTION_STOP = "net.bonysoft.wearpomodoro.ACTION_STOP";
-    public static final String ACTION_PAUSE = "net.bonysoft.wearpomodoro.ACTION_PAUSE";
-    public static final String ACTION_RESUME = "net.bonysoft.wearpomodoro.ACTION_RESUME";
     public static final String ACTION_RESET = "net.bonysoft.wearpomodoro.ACTION_RESET";
     public static final String ACTION_UPDATE = "net.bonysoft.wearpomodoro.ACTION_UPDATE";
     public static final String ACTION_ELAPSED_ALARM = "net.bonysoft.wearpomodoro.ACTION_ELAPSED_ALARM";
@@ -25,7 +23,6 @@ public class PomodoroReceiver extends BroadcastReceiver {
     private static final long[] FULL_TIME_PATTERN = {0, 1000, 500, 1000, 500, 1000};
 
     private static final int MINUTE_MILLIS = 60000;
-    private static final long DURATION = 45 * MINUTE_MILLIS;
 
     private static final Intent UPDATE_INTENT = new Intent(ACTION_UPDATE);
     private static final Intent ELAPSED_ALARM = new Intent(ACTION_ELAPSED_ALARM);
@@ -51,12 +48,6 @@ public class PomodoroReceiver extends BroadcastReceiver {
         } else if (intent.getAction().equals(ACTION_STOP)) {
             stop(context, timer);
             shouldUpdate = true;
-        } else if (intent.getAction().equals(ACTION_PAUSE)) {
-            pause(context, timer);
-            shouldUpdate = true;
-        } else if (intent.getAction().equals(ACTION_RESUME)) {
-            resume(context, timer);
-            shouldUpdate = true;
         } else if (intent.getAction().equals(ACTION_RESET)) {
             reset(timer);
         } else if (intent.getAction().equals(ACTION_ELAPSED_ALARM)) {
@@ -81,23 +72,6 @@ public class PomodoroReceiver extends BroadcastReceiver {
         pomodoroTimer.reset();
     }
 
-    private void resume(Context context, PomodoroTimer pomodoroTimer) {
-        pomodoroTimer.resume();
-        long playedEnd = pomodoroTimer.getStartTime() + pomodoroTimer.getTotalStoppages() + DURATION;
-        if (playedEnd > System.currentTimeMillis()) {
-            setAlarm(context, REQUEST_FULL_TIME, FULL_TIME_ALARM, playedEnd);
-        }
-    }
-
-    private void pause(Context context, PomodoroTimer pomodoroTimer) {
-        pomodoroTimer.pause();
-        cancelAlarm(context, REQUEST_FULL_TIME, FULL_TIME_ALARM);
-        long elapsedEnd = pomodoroTimer.getStartTime() + DURATION;
-        if (!isAlarmSet(context, REQUEST_ELAPSED, ELAPSED_ALARM) && elapsedEnd > System.currentTimeMillis()) {
-            setAlarm(context, REQUEST_ELAPSED, ELAPSED_ALARM, elapsedEnd);
-        }
-    }
-
     private void stop(Context context, PomodoroTimer pomodoroTimer) {
         pomodoroTimer.stop();
         cancelAlarm(context, REQUEST_UPDATE, UPDATE_INTENT);
@@ -107,21 +81,11 @@ public class PomodoroReceiver extends BroadcastReceiver {
 
     private void start(Context context, PomodoroTimer pomodoroTimer) {
         pomodoroTimer.start();
-        long elapsedEnd = pomodoroTimer.getStartTime() + DURATION;
-        setRepeatingAlarm(context, REQUEST_UPDATE, UPDATE_INTENT);
-        if (pomodoroTimer.getTotalStoppages() > 0 && !pomodoroTimer.isPaused()) {
-            long playedEnd = pomodoroTimer.getStartTime() + pomodoroTimer.getTotalStoppages() + DURATION;
-            if (playedEnd > System.currentTimeMillis()) {
-                setAlarm(context, REQUEST_FULL_TIME, FULL_TIME_ALARM, playedEnd);
-            }
-            if (elapsedEnd > System.currentTimeMillis()) {
-                setAlarm(context, REQUEST_ELAPSED, ELAPSED_ALARM, elapsedEnd);
-            }
-        } else {
+
+        long elapsedEnd = pomodoroTimer.getStartTime() + pomodoroTimer.getIntervalDurationMinutes() * MINUTE_MILLIS;
             if (elapsedEnd > System.currentTimeMillis()) {
                 setAlarm(context, REQUEST_FULL_TIME, FULL_TIME_ALARM, elapsedEnd);
             }
-        }
     }
 
     private void setRepeatingAlarm(Context context, int requestCode, Intent intent) {
