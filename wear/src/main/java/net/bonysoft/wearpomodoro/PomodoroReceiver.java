@@ -41,7 +41,7 @@ public class PomodoroReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Pomodoro timer = Pomodoro.newInstance(context);
+        PomodoroTimer timer = PomodoroTimer.newInstance(context);
         boolean shouldUpdate = false;
         if (intent.getAction().equals(ACTION_UPDATE)) {
             shouldUpdate = true;
@@ -70,47 +70,47 @@ public class PomodoroReceiver extends BroadcastReceiver {
         }
     }
 
-    private void updateNotification(Context context, Pomodoro timer) {
+    private void updateNotification(Context context, PomodoroTimer timer) {
         NotificationBuilder builder = new NotificationBuilder(context, timer);
         Notification notification = builder.buildNotification();
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.notify(NOTIFICATION_ID, notification);
     }
 
-    private void reset(Pomodoro pomodoro) {
-        pomodoro.reset();
+    private void reset(PomodoroTimer pomodoroTimer) {
+        pomodoroTimer.reset();
     }
 
-    private void resume(Context context, Pomodoro pomodoro) {
-        pomodoro.resume();
-        long playedEnd = pomodoro.getStartTime() + pomodoro.getTotalStoppages() + DURATION;
+    private void resume(Context context, PomodoroTimer pomodoroTimer) {
+        pomodoroTimer.resume();
+        long playedEnd = pomodoroTimer.getStartTime() + pomodoroTimer.getTotalStoppages() + DURATION;
         if (playedEnd > System.currentTimeMillis()) {
             setAlarm(context, REQUEST_FULL_TIME, FULL_TIME_ALARM, playedEnd);
         }
     }
 
-    private void pause(Context context, Pomodoro pomodoro) {
-        pomodoro.pause();
+    private void pause(Context context, PomodoroTimer pomodoroTimer) {
+        pomodoroTimer.pause();
         cancelAlarm(context, REQUEST_FULL_TIME, FULL_TIME_ALARM);
-        long elapsedEnd = pomodoro.getStartTime() + DURATION;
+        long elapsedEnd = pomodoroTimer.getStartTime() + DURATION;
         if (!isAlarmSet(context, REQUEST_ELAPSED, ELAPSED_ALARM) && elapsedEnd > System.currentTimeMillis()) {
             setAlarm(context, REQUEST_ELAPSED, ELAPSED_ALARM, elapsedEnd);
         }
     }
 
-    private void stop(Context context, Pomodoro pomodoro) {
-        pomodoro.stop();
+    private void stop(Context context, PomodoroTimer pomodoroTimer) {
+        pomodoroTimer.stop();
         cancelAlarm(context, REQUEST_UPDATE, UPDATE_INTENT);
         cancelAlarm(context, REQUEST_ELAPSED, ELAPSED_ALARM);
         cancelAlarm(context, REQUEST_FULL_TIME, FULL_TIME_ALARM);
     }
 
-    private void start(Context context, Pomodoro pomodoro) {
-        pomodoro.start();
-        long elapsedEnd = pomodoro.getStartTime() + DURATION;
+    private void start(Context context, PomodoroTimer pomodoroTimer) {
+        pomodoroTimer.start();
+        long elapsedEnd = pomodoroTimer.getStartTime() + DURATION;
         setRepeatingAlarm(context, REQUEST_UPDATE, UPDATE_INTENT);
-        if (pomodoro.getTotalStoppages() > 0 && !pomodoro.isPaused()) {
-            long playedEnd = pomodoro.getStartTime() + pomodoro.getTotalStoppages() + DURATION;
+        if (pomodoroTimer.getTotalStoppages() > 0 && !pomodoroTimer.isPaused()) {
+            long playedEnd = pomodoroTimer.getStartTime() + pomodoroTimer.getTotalStoppages() + DURATION;
             if (playedEnd > System.currentTimeMillis()) {
                 setAlarm(context, REQUEST_FULL_TIME, FULL_TIME_ALARM, playedEnd);
             }

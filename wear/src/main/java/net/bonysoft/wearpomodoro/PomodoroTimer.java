@@ -3,14 +3,14 @@ package net.bonysoft.wearpomodoro;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class Pomodoro implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String KEY_START = "net.bonysoft.wearpomodoro.KEY_START";
     private static final String KEY_CURRENT_STOPPAGE = "net.bonysoft.wearpomodoro.KEY_CURRENT_STOPPAGE";
     private static final String KEY_TOTAL_STOPPAGES = "net.bonysoft.wearpomodoro.KEY_TOTAL_STOPPAGES";
     private static final String KEY_END = "net.bonysoft.wearpomodoro.KEY_END";
     private static final String KEY_CURRENT_POMODORO = "net.bonysoft.wearpomodoro.KEY_CURRENT_POMODORO";
-    private static final String PREFERENCES = "Pomodoro";
+    private static final String PREFERENCES = "PomodoroTimer";
 
     private static final int WORK_INTERVAL_MINUTES = 25;
     private static final int SMALL_BREAK_MINUTES = 5;
@@ -26,17 +26,17 @@ public class Pomodoro implements SharedPreferences.OnSharedPreferenceChangeListe
 
     private final SharedPreferences preferences;
 
-    public static Pomodoro newInstance(Context context) {
+    public static PomodoroTimer newInstance(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
         long start = preferences.getLong(KEY_START, 0);
         long currentStoppage = preferences.getLong(KEY_CURRENT_STOPPAGE, 0);
         long totalStoppages = preferences.getLong(KEY_TOTAL_STOPPAGES, 0);
         long end = preferences.getLong(KEY_END, 0);
         int currentPomodoro = preferences.getInt(KEY_CURRENT_POMODORO, 0);
-        return new Pomodoro(preferences, start, currentStoppage, totalStoppages, end, currentPomodoro);
+        return new PomodoroTimer(preferences, start, currentStoppage, totalStoppages, end, currentPomodoro);
     }
 
-    private Pomodoro(SharedPreferences preferences, long start, long currentStoppage, long totalStoppages, long end, int currentPomodoro) {
+    private PomodoroTimer(SharedPreferences preferences, long start, long currentStoppage, long totalStoppages, long end, int currentPomodoro) {
         this.preferences = preferences;
         this.start = start;
         this.currentStoppage = currentStoppage;

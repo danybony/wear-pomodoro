@@ -6,9 +6,9 @@ import android.content.Context;
 public class NotificationBuilder {
 
     private final Context context;
-    private final Pomodoro timer;
+    private final PomodoroTimer timer;
 
-    public NotificationBuilder(Context context, Pomodoro timer) {
+    public NotificationBuilder(Context context, PomodoroTimer timer) {
         this.context = context;
         this.timer = timer;
     }
