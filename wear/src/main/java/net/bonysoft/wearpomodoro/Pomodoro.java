@@ -9,6 +9,7 @@ public class Pomodoro implements SharedPreferences.OnSharedPreferenceChangeListe
     private static final String KEY_CURRENT_STOPPAGE = "net.bonysoft.wearpomodoro.KEY_CURRENT_STOPPAGE";
     private static final String KEY_TOTAL_STOPPAGES = "net.bonysoft.wearpomodoro.KEY_TOTAL_STOPPAGES";
     private static final String KEY_END = "net.bonysoft.wearpomodoro.KEY_END";
+    private static final String KEY_CURRENT_POMODORO = "net.bonysoft.wearpomodoro.KEY_CURRENT_POMODORO";
     private static final String PREFERENCES = "Pomodoro";
 
     private static final int WORK_INTERVAL_MINUTES = 25;
@@ -21,6 +22,7 @@ public class Pomodoro implements SharedPreferences.OnSharedPreferenceChangeListe
     private long currentStoppage;
     private long totalStoppages;
     private long end;
+    private int currentPomodoro;
 
     private final SharedPreferences preferences;
 
@@ -30,15 +32,17 @@ public class Pomodoro implements SharedPreferences.OnSharedPreferenceChangeListe
         long currentStoppage = preferences.getLong(KEY_CURRENT_STOPPAGE, 0);
         long totalStoppages = preferences.getLong(KEY_TOTAL_STOPPAGES, 0);
         long end = preferences.getLong(KEY_END, 0);
-        return new Pomodoro(preferences, start, currentStoppage, totalStoppages, end);
+        int currentPomodoro = preferences.getInt(KEY_CURRENT_POMODORO, 0);
+        return new Pomodoro(preferences, start, currentStoppage, totalStoppages, end, currentPomodoro);
     }
 
-    private Pomodoro(SharedPreferences preferences, long start, long currentStoppage, long totalStoppages, long end) {
+    private Pomodoro(SharedPreferences preferences, long start, long currentStoppage, long totalStoppages, long end, int currentPomodoro) {
         this.preferences = preferences;
         this.start = start;
         this.currentStoppage = currentStoppage;
         this.totalStoppages = totalStoppages;
         this.end = end;
+        this.currentPomodoro = currentPomodoro;
     }
 
     public void start() {
@@ -126,6 +130,7 @@ public class Pomodoro implements SharedPreferences.OnSharedPreferenceChangeListe
                 .putLong(KEY_CURRENT_STOPPAGE, currentStoppage)
                 .putLong(KEY_TOTAL_STOPPAGES, totalStoppages)
                 .putLong(KEY_END, end)
+                .putInt(KEY_CURRENT_POMODORO, currentPomodoro)
                 .apply();
     }
 
@@ -139,6 +144,11 @@ public class Pomodoro implements SharedPreferences.OnSharedPreferenceChangeListe
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(KEY_CURRENT_POMODORO)) {
+            currentPomodoro = sharedPreferences.getInt(KEY_CURRENT_POMODORO, 0);
+            return;
+        }
+
         long value = sharedPreferences.getLong(key, 0L);
         if (key.equals(KEY_START)) {
             start = value;
