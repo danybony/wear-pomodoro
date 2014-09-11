@@ -5,11 +5,42 @@ import android.content.SharedPreferences;
 
 public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    private static enum Status {
+        IDLE(-1),
+        WORK(0),
+        SMALL_BREAK(1),
+        LONG_BREAK(2);
+
+        private int serialisedValue;
+
+        Status(int serialisedValue) {
+            this.serialisedValue = serialisedValue;
+        }
+
+        public int getSerialisedValue() {
+            return serialisedValue;
+        }
+
+        public static Status from(int serialisedValue) {
+            switch (serialisedValue) {
+                case 0:
+                    return WORK;
+                case 1:
+                    return SMALL_BREAK;
+                case 2:
+                    return LONG_BREAK;
+                default:
+                    return IDLE;
+            }
+        }
+    }
+
     private static final String KEY_START = "net.bonysoft.wearpomodoro.KEY_START";
     private static final String KEY_CURRENT_STOPPAGE = "net.bonysoft.wearpomodoro.KEY_CURRENT_STOPPAGE";
     private static final String KEY_TOTAL_STOPPAGES = "net.bonysoft.wearpomodoro.KEY_TOTAL_STOPPAGES";
     private static final String KEY_END = "net.bonysoft.wearpomodoro.KEY_END";
     private static final String KEY_CURRENT_POMODORO = "net.bonysoft.wearpomodoro.KEY_CURRENT_POMODORO";
+    private static final String KEY_CURRENT_STATUS = "net.bonysoft.wearpomodoro.KEY_CURRENT_STATUS";
     private static final String PREFERENCES = "PomodoroTimer";
 
     private static final int WORK_INTERVAL_MINUTES = 25;
@@ -23,6 +54,7 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
     private long totalStoppages;
     private long end;
     private int currentPomodoro;
+    private Status currentStatus;
 
     private final SharedPreferences preferences;
 
@@ -33,16 +65,18 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
         long totalStoppages = preferences.getLong(KEY_TOTAL_STOPPAGES, 0);
         long end = preferences.getLong(KEY_END, 0);
         int currentPomodoro = preferences.getInt(KEY_CURRENT_POMODORO, 0);
-        return new PomodoroTimer(preferences, start, currentStoppage, totalStoppages, end, currentPomodoro);
+        Status currentStatus = Status.from(preferences.getInt(KEY_CURRENT_STATUS, Status.IDLE.getSerialisedValue()));
+        return new PomodoroTimer(preferences, start, currentStoppage, totalStoppages, end, currentPomodoro, currentStatus);
     }
 
-    private PomodoroTimer(SharedPreferences preferences, long start, long currentStoppage, long totalStoppages, long end, int currentPomodoro) {
+    private PomodoroTimer(SharedPreferences preferences, long start, long currentStoppage, long totalStoppages, long end, int currentPomodoro, Status currentStatus) {
         this.preferences = preferences;
         this.start = start;
         this.currentStoppage = currentStoppage;
         this.totalStoppages = totalStoppages;
         this.end = end;
         this.currentPomodoro = currentPomodoro;
+        this.currentStatus = currentStatus;
     }
 
     public void start() {
@@ -85,6 +119,7 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
         totalStoppages = 0L;
         end = 0L;
         currentPomodoro = 0;
+        currentStatus = Status.IDLE;
     }
 
     public long getElapsed() {
@@ -132,6 +167,7 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
                 .putLong(KEY_TOTAL_STOPPAGES, totalStoppages)
                 .putLong(KEY_END, end)
                 .putInt(KEY_CURRENT_POMODORO, currentPomodoro)
+                .putInt(KEY_CURRENT_STATUS, currentStatus.getSerialisedValue())
                 .apply();
     }
 
@@ -147,18 +183,19 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(KEY_CURRENT_POMODORO)) {
             currentPomodoro = sharedPreferences.getInt(KEY_CURRENT_POMODORO, 0);
-            return;
-        }
-
-        long value = sharedPreferences.getLong(key, 0L);
-        if (key.equals(KEY_START)) {
-            start = value;
-        } else if (key.equals(KEY_END)) {
-            end = value;
-        } else if (key.equals(KEY_CURRENT_STOPPAGE)) {
-            currentStoppage = value;
-        } else if (key.equals(KEY_TOTAL_STOPPAGES)) {
-            totalStoppages = value;
+        } else if(key.equals(KEY_CURRENT_POMODORO)) {
+            currentStatus = Status.from(sharedPreferences.getInt(KEY_CURRENT_STATUS, Status.IDLE.getSerialisedValue()));
+        } else {
+            long value = sharedPreferences.getLong(key, 0L);
+            if (key.equals(KEY_START)) {
+                start = value;
+            } else if (key.equals(KEY_END)) {
+                end = value;
+            } else if (key.equals(KEY_CURRENT_STOPPAGE)) {
+                currentStoppage = value;
+            } else if (key.equals(KEY_TOTAL_STOPPAGES)) {
+                totalStoppages = value;
+            }
         }
     }
 }
