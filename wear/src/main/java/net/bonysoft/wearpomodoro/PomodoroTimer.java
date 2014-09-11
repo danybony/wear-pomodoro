@@ -84,6 +84,7 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
         currentStoppage = 0L;
         totalStoppages = 0L;
         end = 0L;
+        currentPomodoro = 0;
     }
 
     public long getElapsed() {
