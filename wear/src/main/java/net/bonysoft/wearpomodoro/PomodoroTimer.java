@@ -89,25 +89,22 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
         save();
     }
 
-    public int advanceStatus() {
+    public void advanceStatus() {
         switch (currentStatus) {
             case IDLE:
             case SMALL_BREAK:
             case LONG_BREAK:
                 currentStatus = Status.WORK;
                 save();
-                return WORK_INTERVAL_MINUTES;
+                break;
             case WORK:
                 currentPomodoro++;
                 if (currentPomodoro % POMODORI_BEFORE_LONG_BREAK == 0) {
                     currentStatus = Status.LONG_BREAK;
-                    save();
-                    return LONG_BREAK_MINUTES;
                 } else {
                     currentStatus = Status.SMALL_BREAK;
-                    save();
-                    return SMALL_BREAK_MINUTES;
                 }
+                save();
             default:
                 throw new IllegalStateException("Invalid status " + currentStatus);
         }
