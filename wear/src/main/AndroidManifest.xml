@@ -1,24 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.bonysoft.wearpomodoro" >
+  package="net.bonysoft.wearpomodoro">
 
-    <uses-feature android:name="android.hardware.type.watch" />
-    <uses-permission android:name="android.permission.VIBRATE" />
+  <uses-feature android:name="android.hardware.type.watch" />
+  <uses-permission android:name="android.permission.VIBRATE" />
 
-    <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@android:style/Theme.DeviceDefault" >
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+  <application
+    android:allowBackup="true"
+    android:icon="@drawable/ic_launcher"
+    android:label="@string/app_name"
+    android:theme="@android:style/Theme.DeviceDefault">
+    <activity
+      android:name=".MainActivity"
+      android:label="@string/app_name">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-    </application>
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+
+    <receiver
+      android:name=".PomodoroReceiver"
+      android:exported="false"
+      android:enabled="true">
+      <intent-filter>
+        <action android:name="net.bonysoft.wearpomodoro.ACTION_START" />
+        <action android:name="net.bonysoft.wearpomodoro.ACTION_STOP" />
+        <action android:name="net.bonysoft.wearpomodoro.ACTION_RESET" />
+        <action android:name="net.bonysoft.wearpomodoro.ACTION_UPDATE" />
+        <action android:name="net.bonysoft.wearpomodoro.ACTION_ELAPSED_ALARM" />
+        <action android:name="net.bonysoft.wearpomodoro.ACTION_FULL_TIME_ALARM" />
+      </intent-filter>
+    </receiver>
+
+  </application>
 
 </manifest>
