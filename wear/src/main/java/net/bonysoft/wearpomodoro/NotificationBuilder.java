@@ -77,10 +77,16 @@ public class NotificationBuilder {
 //        if (timer.isPaused()) {
 //            return context.getString(R.string.title_paused, timer.getElapsedMinutes());
 //        } else
-        if (timer.isRunning()) {
-            return context.getString(R.string.title_running, timer.getCurrentPomodoro(), timer.getElapsedMinutes());
+        switch (timer.getStatus()) {
+            case WORK:
+                return context.getString(R.string.title_work, timer.getCurrentPomodoro(), timer.getElapsedMinutes());
+            case SMALL_BREAK:
+                return context.getString(R.string.title_small_break, timer.getElapsedMinutes());
+            case LONG_BREAK:
+                return context.getString(R.string.title_long_break, timer.getElapsedMinutes());
+            default:
+                return context.getString(R.string.title_stopped);
         }
-        return context.getString(R.string.title_stopped);
     }
 
 }

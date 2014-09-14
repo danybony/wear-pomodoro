@@ -8,7 +8,7 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
 
     private static final String TAG = PomodoroTimer.class.getSimpleName();
 
-    private static enum Status {
+    static enum Status {
         IDLE(-1),
         WORK(0),
         SMALL_BREAK(1),
@@ -150,6 +150,10 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
 
     public int getCurrentPomodoro() {
         return currentPomodoro;
+    }
+
+    public Status getStatus() {
+        return currentStatus;
     }
 
     public boolean isRunning() {
