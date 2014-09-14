@@ -30,7 +30,7 @@
         <action android:name="net.bonysoft.wearpomodoro.ACTION_RESET" />
         <action android:name="net.bonysoft.wearpomodoro.ACTION_UPDATE" />
         <action android:name="net.bonysoft.wearpomodoro.ACTION_ELAPSED_ALARM" />
-        <action android:name="net.bonysoft.wearpomodoro.ACTION_FULL_TIME_ALARM" />
+        <action android:name="net.bonysoft.wearpomodoro.ACTION_INTERVAL_END_ALARM" />
       </intent-filter>
     </receiver>
 
