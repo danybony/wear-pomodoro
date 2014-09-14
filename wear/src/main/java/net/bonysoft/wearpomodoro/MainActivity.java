@@ -1,13 +1,15 @@
 package net.bonysoft.wearpomodoro;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends Activity {
 
-    private TextView mTextView;
+    private Button startButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +19,15 @@ public class MainActivity extends Activity {
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
-                mTextView = (TextView) stub.findViewById(R.id.text);
+                startButton = (Button) stub.findViewById(R.id.button_start);
+                startButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent startIntent = new Intent(PomodoroReceiver.ACTION_START);
+                        sendBroadcast(startIntent);
+                        finish();
+                    }
+                });
             }
         });
     }

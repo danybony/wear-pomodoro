@@ -2,8 +2,11 @@ package net.bonysoft.wearpomodoro;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+    private static final String TAG = PomodoroTimer.class.getSimpleName();
 
     private static enum Status {
         IDLE(-1),
@@ -47,6 +50,7 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
     private static final int MINUTE_MILLIS = 60000;
 
     private long start;
+
     private int currentPomodoro;
     private Status currentStatus;
 
@@ -69,10 +73,12 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
 
     public void start() {
         start = System.currentTimeMillis();
+        advanceStatus();
         save();
     }
 
     public void advanceStatus() {
+        Log.d(TAG, "Old status: " + currentStatus.toString());
         switch (currentStatus) {
             case IDLE:
             case SMALL_BREAK:
@@ -88,9 +94,11 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
                     currentStatus = Status.SMALL_BREAK;
                 }
                 save();
+                break;
             default:
                 throw new IllegalStateException("Invalid status " + currentStatus);
         }
+        Log.d(TAG, "New status: " + currentStatus.toString());
     }
 
     public int getIntervalDurationMinutes() {
@@ -138,6 +146,10 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
             return System.currentTimeMillis() - start;
         }
         return 0;
+    }
+
+    public int getCurrentPomodoro() {
+        return currentPomodoro;
     }
 
     public boolean isRunning() {

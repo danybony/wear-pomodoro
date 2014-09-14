@@ -57,7 +57,7 @@ public class NotificationBuilder {
     private void buildStoppedActions(Notification.WearableExtender extender) {
         PendingIntent startPendingIntent = PendingIntent.getBroadcast(context, ID_START, START_INTENT, PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent resetPendingIntent = PendingIntent.getBroadcast(context, ID_RESET, RESET_INTENT, PendingIntent.FLAG_UPDATE_CURRENT);
-        extender.addAction(new Notification.Action.Builder(android.R.drawable.ic_media_pause, "Start", startPendingIntent).build());
+        extender.addAction(new Notification.Action.Builder(android.R.drawable.ic_media_play, "Start", startPendingIntent).build());
         extender.addAction(new Notification.Action.Builder(android.R.drawable.ic_menu_revert, "Reset", resetPendingIntent).build());
     }
 
@@ -80,7 +80,7 @@ public class NotificationBuilder {
 //            return context.getString(R.string.title_paused, timer.getElapsedMinutes());
 //        } else
         if (timer.isRunning()) {
-            return context.getString(R.string.title_running, timer.getElapsedMinutes());
+            return context.getString(R.string.title_running, timer.getCurrentPomodoro(), timer.getElapsedMinutes());
         }
         return context.getString(R.string.title_stopped);
     }
