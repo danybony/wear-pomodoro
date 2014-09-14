@@ -43,9 +43,9 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
     private static final String KEY_CURRENT_STATUS = "net.bonysoft.wearpomodoro.KEY_CURRENT_STATUS";
     private static final String PREFERENCES = "PomodoroTimer";
 
-    private static final int WORK_INTERVAL_MINUTES = 25;
-    private static final int SMALL_BREAK_MINUTES = 5;
-    private static final int LONG_BREAK_MINUTES = 15;
+    private static final int WORK_INTERVAL_MINUTES = 5;
+    private static final int SMALL_BREAK_MINUTES = 1;
+    private static final int LONG_BREAK_MINUTES = 3;
     private static final int POMODORI_BEFORE_LONG_BREAK = 4;
     private static final int MINUTE_MILLIS = 60000;
 

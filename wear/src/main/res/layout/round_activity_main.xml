@@ -6,10 +6,11 @@
   tools:context=".MainActivity"
   tools:deviceIds="wear_round">
 
-  <Button
+  <ImageButton
     android:id="@+id/button_start"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:drawable/ic_media_play" />
+    android:background="@android:color/transparent"
+    android:src="@drawable/ic_action_play" />
 
 </RelativeLayout>

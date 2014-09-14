@@ -31,7 +31,7 @@ public class NotificationBuilder {
         Notification.WearableExtender extender = new Notification.WearableExtender();
         // TODO: find a nice background
         //extender.setBackground(BitmapFactory.decodeResource(context.getResources(), R.drawable.bkg_football));
-        extender.setDisplayIntent(activityPendingIntent);
+        // extender.setDisplayIntent(activityPendingIntent);
         boolean ongoing = true;
 //        if (pomodoroTimer.isPaused()) {
 //            buildPausedActions(extender);
@@ -55,22 +55,22 @@ public class NotificationBuilder {
     private void buildStoppedActions(Notification.WearableExtender extender) {
         PendingIntent startPendingIntent = PendingIntent.getBroadcast(context, ID_START, START_INTENT, PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent resetPendingIntent = PendingIntent.getBroadcast(context, ID_RESET, RESET_INTENT, PendingIntent.FLAG_UPDATE_CURRENT);
-        extender.addAction(new Notification.Action.Builder(android.R.drawable.ic_media_play, "Start", startPendingIntent).build());
-        extender.addAction(new Notification.Action.Builder(android.R.drawable.ic_menu_revert, "Reset", resetPendingIntent).build());
+        extender.addAction(new Notification.Action.Builder(R.drawable.ic_action_play, "Start", startPendingIntent).build());
+        extender.addAction(new Notification.Action.Builder(R.drawable.ic_action_replay, "Reset", resetPendingIntent).build());
     }
 
     private void buildRunningActions(Notification.WearableExtender extender) {
 //        PendingIntent pausePendingIntent = PendingIntent.getBroadcast(context, ID_PAUSE, PAUSE_INTENT, PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent stopPendingIntent = PendingIntent.getBroadcast(context, ID_STOP, STOP_INTENT, PendingIntent.FLAG_UPDATE_CURRENT);
 //        extender.addAction(new Notification.Action.Builder(android.R.drawable.ic_media_pause, "Pause", pausePendingIntent).build());
-        extender.addAction(new Notification.Action.Builder(android.R.drawable.ic_notification_clear_all, "Stop", stopPendingIntent).build());
+        extender.addAction(new Notification.Action.Builder(R.drawable.ic_action_stop, "Stop", stopPendingIntent).build());
     }
 
     private void buildPausedActions(Notification.WearableExtender extender) {
         PendingIntent stopPendingIntent = PendingIntent.getBroadcast(context, ID_STOP, STOP_INTENT, PendingIntent.FLAG_UPDATE_CURRENT);
 //        PendingIntent resumePendingIntent = PendingIntent.getBroadcast(context, ID_RESUME, RESUME_INTENT, PendingIntent.FLAG_UPDATE_CURRENT);
 //        extender.addAction(new Notification.Action.Builder(android.R.drawable.ic_media_play, "Resume", resumePendingIntent).build());
-        extender.addAction(new Notification.Action.Builder(android.R.drawable.ic_notification_clear_all, "Stop", stopPendingIntent).build());
+        extender.addAction(new Notification.Action.Builder(R.drawable.ic_action_stop, "Stop", stopPendingIntent).build());
     }
 
     private String buildNotificationTitle(PomodoroTimer timer) {
