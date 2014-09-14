@@ -49,7 +49,7 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
     private static final int POMODORI_BEFORE_LONG_BREAK = 4;
     private static final int MINUTE_MILLIS = 60000;
 
-    private long start;
+    private long intervalStart;
 
     private int currentPomodoro;
     private Status currentStatus;
@@ -64,15 +64,15 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
         return new PomodoroTimer(preferences, start, currentPomodoro, currentStatus);
     }
 
-    private PomodoroTimer(SharedPreferences preferences, long start, int currentPomodoro, Status currentStatus) {
+    private PomodoroTimer(SharedPreferences preferences, long intervalStart, int currentPomodoro, Status currentStatus) {
         this.preferences = preferences;
-        this.start = start;
+        this.intervalStart = intervalStart;
         this.currentPomodoro = currentPomodoro;
         this.currentStatus = currentStatus;
     }
 
     public void start() {
-        start = System.currentTimeMillis();
+        intervalStart = System.currentTimeMillis();
         advanceStatus();
         save();
     }
@@ -136,14 +136,14 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
     }
 
     private void resetWithoutSave() {
-        start = 0L;
+        intervalStart = 0L;
         currentPomodoro = 0;
         currentStatus = Status.IDLE;
     }
 
     public long getElapsed() {
         if (isRunning()) {
-            return System.currentTimeMillis() - start;
+            return System.currentTimeMillis() - intervalStart;
         }
         return 0;
     }
@@ -153,20 +153,20 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
     }
 
     public boolean isRunning() {
-        return start > 0;
+        return intervalStart > 0;
     }
 
     public int getElapsedMinutes() {
-        return (int) ((System.currentTimeMillis() - start) / MINUTE_MILLIS);
+        return (int) ((System.currentTimeMillis() - intervalStart) / MINUTE_MILLIS);
     }
 
     public long getStartTime() {
-        return start;
+        return intervalStart;
     }
 
     public void save() {
         preferences.edit()
-                .putLong(KEY_START, start)
+                .putLong(KEY_START, intervalStart)
                 .putInt(KEY_CURRENT_POMODORO, currentPomodoro)
                 .putInt(KEY_CURRENT_STATUS, currentStatus.getSerialisedValue())
                 .apply();
@@ -187,7 +187,7 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
         } else if (key.equals(KEY_CURRENT_POMODORO)) {
             currentStatus = Status.from(sharedPreferences.getInt(KEY_CURRENT_STATUS, Status.IDLE.getSerialisedValue()));
         } else if (key.equals(KEY_START)) {
-            start = sharedPreferences.getLong(key, 0L);
+            intervalStart = sharedPreferences.getLong(key, 0L);
 
         }
     }
