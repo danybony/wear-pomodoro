@@ -15,18 +15,18 @@ public class PomodoroReceiver extends BroadcastReceiver {
     public static final String ACTION_RESET = "net.bonysoft.wearpomodoro.ACTION_RESET";
     public static final String ACTION_UPDATE = "net.bonysoft.wearpomodoro.ACTION_UPDATE";
     public static final String ACTION_ELAPSED_ALARM = "net.bonysoft.wearpomodoro.ACTION_ELAPSED_ALARM";
-    public static final String ACTION_FULL_TIME_ALARM = "net.bonysoft.wearpomodoro.ACTION_FULL_TIME_ALARM";
+    public static final String ACTION_INTERVAL_END_ALARM = "net.bonysoft.wearpomodoro.ACTION_INTERVAL_END_ALARM";
 
     public static final int NOTIFICATION_ID = 1;
 
     private static final long[] ELAPSED_PATTERN = {0, 500, 250, 500, 250, 500};
-    private static final long[] FULL_TIME_PATTERN = {0, 1000, 500, 1000, 500, 1000};
+    private static final long[] INTERVAL_END_PATTERN = {0, 1000, 500, 1000, 500, 1000};
 
     private static final int MINUTE_MILLIS = 60000;
 
     private static final Intent UPDATE_INTENT = new Intent(ACTION_UPDATE);
     private static final Intent ELAPSED_ALARM = new Intent(ACTION_ELAPSED_ALARM);
-    private static final Intent FULL_TIME_ALARM = new Intent(ACTION_FULL_TIME_ALARM);
+    private static final Intent INTERVAL_END_ALARM = new Intent(ACTION_INTERVAL_END_ALARM);
 
     private static final int REQUEST_UPDATE = 1;
     private static final int REQUEST_ELAPSED = 2;
@@ -52,8 +52,9 @@ public class PomodoroReceiver extends BroadcastReceiver {
             reset(timer);
         } else if (intent.getAction().equals(ACTION_ELAPSED_ALARM)) {
             elapsedAlarm(context);
-        } else if (intent.getAction().equals(ACTION_FULL_TIME_ALARM)) {
-            fullTimeAlarm(context);
+        } else if (intent.getAction().equals(ACTION_INTERVAL_END_ALARM)) {
+            nextInterval(context, timer);
+            endIntervalAlarm(context);
         }
 
         if (shouldUpdate) {
@@ -76,7 +77,11 @@ public class PomodoroReceiver extends BroadcastReceiver {
         pomodoroTimer.stop();
         cancelAlarm(context, REQUEST_UPDATE, UPDATE_INTENT);
         cancelAlarm(context, REQUEST_ELAPSED, ELAPSED_ALARM);
-        cancelAlarm(context, REQUEST_FULL_TIME, FULL_TIME_ALARM);
+        cancelAlarm(context, REQUEST_FULL_TIME, INTERVAL_END_ALARM);
+    }
+
+    private void nextInterval(Context context, PomodoroTimer timer) {
+        start(context, timer);
     }
 
     private void start(Context context, PomodoroTimer pomodoroTimer) {
@@ -85,7 +90,7 @@ public class PomodoroReceiver extends BroadcastReceiver {
         setRepeatingAlarm(context, REQUEST_UPDATE, UPDATE_INTENT);
         long elapsedEnd = pomodoroTimer.getStartTime() + pomodoroTimer.getIntervalDurationMinutes() * MINUTE_MILLIS;
         if (elapsedEnd > System.currentTimeMillis()) {
-            setAlarm(context, REQUEST_FULL_TIME, FULL_TIME_ALARM, elapsedEnd);
+            setAlarm(context, REQUEST_FULL_TIME, INTERVAL_END_ALARM, elapsedEnd);
         }
     }
 
@@ -119,8 +124,8 @@ public class PomodoroReceiver extends BroadcastReceiver {
         vibrator.vibrate(ELAPSED_PATTERN, -1);
     }
 
-    private void fullTimeAlarm(Context context) {
+    private void endIntervalAlarm(Context context) {
         Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        vibrator.vibrate(FULL_TIME_PATTERN, -1);
+        vibrator.vibrate(INTERVAL_END_PATTERN, -1);
     }
 }
