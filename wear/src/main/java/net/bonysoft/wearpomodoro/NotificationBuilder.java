@@ -14,8 +14,6 @@ public class NotificationBuilder {
     private static final int ID_ACTIVITY = 1;
     private static final int ID_START = 2;
     private static final int ID_STOP = 3;
-    private static final int ID_PAUSE = 4;
-    private static final int ID_RESUME = 5;
     private static final int ID_RESET = 6;
 
     private final Context context;

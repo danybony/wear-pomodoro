@@ -82,6 +82,7 @@ public class PomodoroReceiver extends BroadcastReceiver {
     private void start(Context context, PomodoroTimer pomodoroTimer) {
         pomodoroTimer.start();
 
+        setRepeatingAlarm(context, REQUEST_UPDATE, UPDATE_INTENT);
         long elapsedEnd = pomodoroTimer.getStartTime() + pomodoroTimer.getIntervalDurationMinutes() * MINUTE_MILLIS;
         if (elapsedEnd > System.currentTimeMillis()) {
             setAlarm(context, REQUEST_FULL_TIME, FULL_TIME_ALARM, elapsedEnd);
