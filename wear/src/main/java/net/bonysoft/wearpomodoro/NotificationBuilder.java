@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 
 public class NotificationBuilder {
 
@@ -29,8 +30,7 @@ public class NotificationBuilder {
         PendingIntent activityPendingIntent = PendingIntent.getActivity(context, ID_ACTIVITY, activityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Notification.Builder builder = new Notification.Builder(context);
         Notification.WearableExtender extender = new Notification.WearableExtender();
-        // TODO: find a nice background
-        //extender.setBackground(BitmapFactory.decodeResource(context.getResources(), R.drawable.bkg_football));
+        extender.setBackground(BitmapFactory.decodeResource(context.getResources(), R.drawable.pomodoro_background));
         // extender.setDisplayIntent(activityPendingIntent);
         boolean ongoing = true;
 //        if (pomodoroTimer.isPaused()) {
@@ -43,7 +43,7 @@ public class NotificationBuilder {
             ongoing = false;
         }
         builder.setContentTitle(buildNotificationTitle(pomodoroTimer))
-                .setSmallIcon(R.drawable.ic_launcher)
+                .setSmallIcon(R.drawable.notification_small_icon)
                 .setStyle(new Notification.BigTextStyle())
                 .setOngoing(ongoing);
         builder.setPriority(Notification.PRIORITY_MAX);
