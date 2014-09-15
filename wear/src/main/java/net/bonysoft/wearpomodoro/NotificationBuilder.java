@@ -46,7 +46,7 @@ public class NotificationBuilder {
                 .setSmallIcon(R.drawable.notification_small_icon)
                 .setStyle(new Notification.BigTextStyle())
                 .setOngoing(ongoing);
-        builder.setPriority(Notification.PRIORITY_MAX);
+        builder.setPriority(Notification.PRIORITY_LOW);
         builder.extend(extender);
 
         return builder.build();
