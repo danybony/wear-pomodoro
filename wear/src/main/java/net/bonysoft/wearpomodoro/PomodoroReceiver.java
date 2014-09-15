@@ -18,9 +18,6 @@ public class PomodoroReceiver extends BroadcastReceiver {
 
     public static final int NOTIFICATION_ID = 1;
 
-    private static final long[] ELAPSED_PATTERN = {0, 500, 250, 500, 250, 500};
-    private static final long[] INTERVAL_END_PATTERN = {0, 1000, 500, 1000, 500, 1000};
-
     private static final int MINUTE_MILLIS = 60000;
 
     private static final Intent UPDATE_INTENT = new Intent(ACTION_UPDATE);
@@ -50,7 +47,7 @@ public class PomodoroReceiver extends BroadcastReceiver {
             reset(timer);
         } else if (intent.getAction().equals(ACTION_INTERVAL_END_ALARM)) {
             nextInterval(context, timer);
-            endIntervalAlarm(context);
+            endIntervalAlarm(context, timer);
         }
 
         if (shouldUpdate) {
@@ -114,13 +111,9 @@ public class PomodoroReceiver extends BroadcastReceiver {
         }
     }
 
-    private void elapsedAlarm(Context context) {
+    private void endIntervalAlarm(Context context, PomodoroTimer timer) {
         Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        vibrator.vibrate(ELAPSED_PATTERN, -1);
-    }
-
-    private void endIntervalAlarm(Context context) {
-        Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        vibrator.vibrate(INTERVAL_END_PATTERN, -1);
+        PomodoroTimer.Status currentStatus = timer.getStatus();
+        vibrator.vibrate(currentStatus.getVibrationPattern(), -1);
     }
 }

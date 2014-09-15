@@ -8,20 +8,31 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
 
     private static final String TAG = PomodoroTimer.class.getSimpleName();
 
+    public static final long[] IDLE_START_PATTERN = new long[]{0};
+    public static final long[] WORK_START_PATTERN = new long[]{0, 300, 200, 300, 800, 300, 200, 300};
+    public static final long[] SMALL_BREAK_START_PATTERN = new long[]{0, 1000, 500, 1000, 500, 1000};
+    public static final long[] LONG_BREAK_START_PATTERN = new long[]{0, 1000, 500, 1000, 500, 1000};
+
     static enum Status {
-        IDLE(-1),
-        WORK(0),
-        SMALL_BREAK(1),
-        LONG_BREAK(2);
+        IDLE(-1, IDLE_START_PATTERN),
+        WORK(0, WORK_START_PATTERN),
+        SMALL_BREAK(1, SMALL_BREAK_START_PATTERN),
+        LONG_BREAK(2, LONG_BREAK_START_PATTERN);
 
         private int serialisedValue;
+        private long[] vibrationPattern;
 
-        Status(int serialisedValue) {
+        Status(int serialisedValue, long[] vibrationPattern) {
             this.serialisedValue = serialisedValue;
+            this.vibrationPattern = vibrationPattern;
         }
 
         public int getSerialisedValue() {
             return serialisedValue;
+        }
+
+        public long[] getVibrationPattern() {
+            return vibrationPattern;
         }
 
         public static Status from(int serialisedValue) {
