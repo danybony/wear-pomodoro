@@ -14,7 +14,6 @@ public class PomodoroReceiver extends BroadcastReceiver {
     public static final String ACTION_STOP = "net.bonysoft.wearpomodoro.ACTION_STOP";
     public static final String ACTION_RESET = "net.bonysoft.wearpomodoro.ACTION_RESET";
     public static final String ACTION_UPDATE = "net.bonysoft.wearpomodoro.ACTION_UPDATE";
-    public static final String ACTION_ELAPSED_ALARM = "net.bonysoft.wearpomodoro.ACTION_ELAPSED_ALARM";
     public static final String ACTION_INTERVAL_END_ALARM = "net.bonysoft.wearpomodoro.ACTION_INTERVAL_END_ALARM";
 
     public static final int NOTIFICATION_ID = 1;
@@ -25,7 +24,6 @@ public class PomodoroReceiver extends BroadcastReceiver {
     private static final int MINUTE_MILLIS = 60000;
 
     private static final Intent UPDATE_INTENT = new Intent(ACTION_UPDATE);
-    private static final Intent ELAPSED_ALARM = new Intent(ACTION_ELAPSED_ALARM);
     private static final Intent INTERVAL_END_ALARM = new Intent(ACTION_INTERVAL_END_ALARM);
 
     private static final int REQUEST_UPDATE = 1;
@@ -50,8 +48,6 @@ public class PomodoroReceiver extends BroadcastReceiver {
             shouldUpdate = true;
         } else if (intent.getAction().equals(ACTION_RESET)) {
             reset(timer);
-        } else if (intent.getAction().equals(ACTION_ELAPSED_ALARM)) {
-            elapsedAlarm(context);
         } else if (intent.getAction().equals(ACTION_INTERVAL_END_ALARM)) {
             nextInterval(context, timer);
             endIntervalAlarm(context);
@@ -76,7 +72,6 @@ public class PomodoroReceiver extends BroadcastReceiver {
     private void stop(Context context, PomodoroTimer pomodoroTimer) {
         pomodoroTimer.stop();
         cancelAlarm(context, REQUEST_UPDATE, UPDATE_INTENT);
-        cancelAlarm(context, REQUEST_ELAPSED, ELAPSED_ALARM);
         cancelAlarm(context, REQUEST_FULL_TIME, INTERVAL_END_ALARM);
     }
 
