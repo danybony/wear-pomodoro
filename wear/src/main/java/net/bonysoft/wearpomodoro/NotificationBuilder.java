@@ -79,13 +79,25 @@ public class NotificationBuilder {
 //        } else
         switch (timer.getStatus()) {
             case WORK:
-                return context.getString(R.string.title_work, timer.getCurrentPomodoro(), timer.getElapsedMinutes());
+                return context.getString(R.string.title_work, formatRemainingTime(timer));
             case SMALL_BREAK:
-                return context.getString(R.string.title_small_break, timer.getElapsedMinutes());
+                return context.getString(R.string.title_small_break, formatRemainingTime(timer));
             case LONG_BREAK:
-                return context.getString(R.string.title_long_break, timer.getElapsedMinutes());
+                return context.getString(R.string.title_long_break, formatRemainingTime(timer));
             default:
                 return context.getString(R.string.title_stopped);
+        }
+    }
+
+    private String formatRemainingTime(PomodoroTimer timer) {
+        int totalMinutes = timer.getIntervalDurationMinutes();
+        int elapsedMinutes = timer.getElapsedMinutes();
+        int remainingMinutes = totalMinutes - elapsedMinutes;
+
+        if (remainingMinutes >= 1) {
+            return String.valueOf(remainingMinutes);
+        } else {
+            return "< 1";
         }
     }
 

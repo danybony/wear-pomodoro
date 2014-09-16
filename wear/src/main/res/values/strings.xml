@@ -2,9 +2,9 @@
 <resources>
 
   <string name="app_name">Pomodoro</string>
-  <string name="title_work">Pomodoro #%1$d: %2$d min</string>
-  <string name="title_small_break">Small break: %1$d min</string>
-  <string name="title_long_break">Long break: %1$d min</string>
+  <string name="title_work">Next break in %1$s min</string>
+  <string name="title_small_break">Back to work in %1$s min</string>
+  <string name="title_long_break">Back to work in %1$s min</string>
   <string name="title_stopped">Pomodoro stopped</string>
 
 </resources>
