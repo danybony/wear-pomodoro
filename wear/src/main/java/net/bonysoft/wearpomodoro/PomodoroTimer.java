@@ -8,23 +8,37 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
 
     private static final String TAG = PomodoroTimer.class.getSimpleName();
 
+    private static final String KEY_START = "net.bonysoft.wearpomodoro.KEY_START";
+    private static final String KEY_CURRENT_POMODORO = "net.bonysoft.wearpomodoro.KEY_CURRENT_POMODORO";
+    private static final String KEY_CURRENT_STATUS = "net.bonysoft.wearpomodoro.KEY_CURRENT_STATUS";
+    private static final String PREFERENCES = "PomodoroTimer";
+
     public static final long[] IDLE_START_PATTERN = new long[]{0};
     public static final long[] WORK_START_PATTERN = new long[]{0, 300, 200, 300, 800, 300, 200, 300};
     public static final long[] SMALL_BREAK_START_PATTERN = new long[]{0, 1000, 500, 1000, 500, 1000};
     public static final long[] LONG_BREAK_START_PATTERN = new long[]{0, 1000, 500, 1000, 500, 1000};
 
+    private static final int IDLE_INTERVAL_MINUTES = 0;
+    private static final int WORK_INTERVAL_MINUTES = 5;
+    private static final int SMALL_BREAK_MINUTES = 1;
+    private static final int LONG_BREAK_MINUTES = 3;
+    private static final int POMODORI_BEFORE_LONG_BREAK = 4;
+    private static final int MINUTE_MILLIS = 60000;
+
     static enum Status {
-        IDLE(-1, IDLE_START_PATTERN),
-        WORK(0, WORK_START_PATTERN),
-        SMALL_BREAK(1, SMALL_BREAK_START_PATTERN),
-        LONG_BREAK(2, LONG_BREAK_START_PATTERN);
+        IDLE(-1, IDLE_START_PATTERN, IDLE_INTERVAL_MINUTES),
+        WORK(0, WORK_START_PATTERN, WORK_INTERVAL_MINUTES),
+        SMALL_BREAK(1, SMALL_BREAK_START_PATTERN, SMALL_BREAK_MINUTES),
+        LONG_BREAK(2, LONG_BREAK_START_PATTERN, LONG_BREAK_MINUTES);
 
         private int serialisedValue;
         private long[] vibrationPattern;
+        private int durationMinutes;
 
-        Status(int serialisedValue, long[] vibrationPattern) {
+        Status(int serialisedValue, long[] vibrationPattern, int durationMinutes) {
             this.serialisedValue = serialisedValue;
             this.vibrationPattern = vibrationPattern;
+            this.durationMinutes = durationMinutes;
         }
 
         public int getSerialisedValue() {
@@ -33,6 +47,10 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
 
         public long[] getVibrationPattern() {
             return vibrationPattern;
+        }
+
+        public int getDurationMinutes() {
+            return durationMinutes;
         }
 
         public static Status from(int serialisedValue) {
@@ -48,17 +66,6 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
             }
         }
     }
-
-    private static final String KEY_START = "net.bonysoft.wearpomodoro.KEY_START";
-    private static final String KEY_CURRENT_POMODORO = "net.bonysoft.wearpomodoro.KEY_CURRENT_POMODORO";
-    private static final String KEY_CURRENT_STATUS = "net.bonysoft.wearpomodoro.KEY_CURRENT_STATUS";
-    private static final String PREFERENCES = "PomodoroTimer";
-
-    private static final int WORK_INTERVAL_MINUTES = 5;
-    private static final int SMALL_BREAK_MINUTES = 1;
-    private static final int LONG_BREAK_MINUTES = 3;
-    private static final int POMODORI_BEFORE_LONG_BREAK = 4;
-    private static final int MINUTE_MILLIS = 60000;
 
     private long intervalStart;
 
@@ -113,16 +120,7 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
     }
 
     public int getIntervalDurationMinutes() {
-        switch (currentStatus) {
-            case SMALL_BREAK:
-                return SMALL_BREAK_MINUTES;
-            case LONG_BREAK:
-                return LONG_BREAK_MINUTES;
-            case WORK:
-                return WORK_INTERVAL_MINUTES;
-            default:
-                throw new IllegalStateException("Invalid status " + currentStatus);
-        }
+        return currentStatus.getDurationMinutes();
     }
 
     public void stop() {
