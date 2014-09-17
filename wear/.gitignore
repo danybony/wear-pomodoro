@@ -1,1 +1,8 @@
 /build
+
+# IDEA Ignores
+*.iml
+*.ipr
+*.iws
+.idea/
+.gradle/
