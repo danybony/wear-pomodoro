@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <string name="app_name">Pomodoro</string>
+  <string name="app_name">Tomato</string>
+  <string name="app_name_alternative">Tomato timer</string>
   <string name="title_work">Next break in %1$s min</string>
   <string name="title_small_break">Back to work in %1$s min</string>
   <string name="title_long_break">Back to work in %1$s min</string>
