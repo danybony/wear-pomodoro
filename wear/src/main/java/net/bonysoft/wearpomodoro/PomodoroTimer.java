@@ -19,9 +19,9 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
     public static final long[] LONG_BREAK_START_PATTERN = new long[]{0, 1000, 500, 1000, 500, 1000};
 
     private static final int IDLE_INTERVAL_MINUTES = 0;
-    private static final int WORK_INTERVAL_MINUTES = 5;
-    private static final int SMALL_BREAK_MINUTES = 1;
-    private static final int LONG_BREAK_MINUTES = 3;
+    private static final int WORK_INTERVAL_MINUTES = 25;
+    private static final int SMALL_BREAK_MINUTES = 5;
+    private static final int LONG_BREAK_MINUTES = 15;
     private static final int POMODORI_BEFORE_LONG_BREAK = 4;
     private static final int MINUTE_MILLIS = 60000;
 
