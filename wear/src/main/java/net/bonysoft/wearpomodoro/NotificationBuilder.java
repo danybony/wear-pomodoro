@@ -42,8 +42,8 @@ public class NotificationBuilder {
         builder.setContentTitle(buildNotificationTitle(pomodoroTimer))
                 .setSmallIcon(R.drawable.notification_small_icon)
                 .setStyle(new Notification.BigTextStyle())
-                .setOngoing(ongoing);
-        builder.setPriority(Notification.PRIORITY_LOW);
+                .setOngoing(ongoing)
+                .setPriority(getPriorityForStatus(pomodoroTimer.getStatus()));
         builder.extend(extender);
 
         return builder.build();
@@ -71,6 +71,15 @@ public class NotificationBuilder {
                 return context.getString(R.string.title_long_break, formatRemainingTime(timer));
             default:
                 return context.getString(R.string.title_stopped);
+        }
+    }
+
+    private int getPriorityForStatus(PomodoroTimer.Status status) {
+        switch (status) {
+            case WORK:
+                return Notification.PRIORITY_MAX;
+            default:
+                return Notification.PRIORITY_LOW;
         }
     }
 
