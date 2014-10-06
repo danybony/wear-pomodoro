@@ -33,9 +33,6 @@ public class NotificationBuilder {
         extender.setBackground(BitmapFactory.decodeResource(context.getResources(), R.drawable.pomodoro_background));
         // extender.setDisplayIntent(activityPendingIntent);
         boolean ongoing = true;
-//        if (pomodoroTimer.isPaused()) {
-//            buildPausedActions(extender);
-//        } else
         if (pomodoroTimer.isRunning()) {
             buildRunningActions(extender);
         } else {
@@ -60,23 +57,11 @@ public class NotificationBuilder {
     }
 
     private void buildRunningActions(Notification.WearableExtender extender) {
-//        PendingIntent pausePendingIntent = PendingIntent.getBroadcast(context, ID_PAUSE, PAUSE_INTENT, PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent stopPendingIntent = PendingIntent.getBroadcast(context, ID_STOP, STOP_INTENT, PendingIntent.FLAG_UPDATE_CURRENT);
-//        extender.addAction(new Notification.Action.Builder(android.R.drawable.ic_media_pause, "Pause", pausePendingIntent).build());
-        extender.addAction(new Notification.Action.Builder(R.drawable.ic_action_stop, "Stop", stopPendingIntent).build());
-    }
-
-    private void buildPausedActions(Notification.WearableExtender extender) {
-        PendingIntent stopPendingIntent = PendingIntent.getBroadcast(context, ID_STOP, STOP_INTENT, PendingIntent.FLAG_UPDATE_CURRENT);
-//        PendingIntent resumePendingIntent = PendingIntent.getBroadcast(context, ID_RESUME, RESUME_INTENT, PendingIntent.FLAG_UPDATE_CURRENT);
-//        extender.addAction(new Notification.Action.Builder(android.R.drawable.ic_media_play, "Resume", resumePendingIntent).build());
         extender.addAction(new Notification.Action.Builder(R.drawable.ic_action_stop, "Stop", stopPendingIntent).build());
     }
 
     private String buildNotificationTitle(PomodoroTimer timer) {
-//        if (timer.isPaused()) {
-//            return context.getString(R.string.title_paused, timer.getElapsedMinutes());
-//        } else
         switch (timer.getStatus()) {
             case WORK:
                 return context.getString(R.string.title_work, formatRemainingTime(timer));
