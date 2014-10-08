@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+apply from: "../team-props/environment-properties.gradle"
+
 android {
     compileSdkVersion 20
     buildToolsVersion "20.0.0"
@@ -8,8 +10,8 @@ android {
         applicationId "net.bonysoft.wearpomodoro"
         minSdkVersion 15
         targetSdkVersion 20
-        versionCode 1
-        versionName "0.1"
+        versionCode GLOBAL_VERSION_CODE
+        versionName GLOBAL_VERSION_NAME
     }
     buildTypes {
         release {
