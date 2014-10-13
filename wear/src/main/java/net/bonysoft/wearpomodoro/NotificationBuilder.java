@@ -52,13 +52,13 @@ public class NotificationBuilder {
     private void buildStoppedActions(Notification.WearableExtender extender) {
         PendingIntent startPendingIntent = PendingIntent.getBroadcast(context, ID_START, START_INTENT, PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent resetPendingIntent = PendingIntent.getBroadcast(context, ID_RESET, RESET_INTENT, PendingIntent.FLAG_UPDATE_CURRENT);
-        extender.addAction(new Notification.Action.Builder(R.drawable.ic_action_play, "Start", startPendingIntent).build());
-        extender.addAction(new Notification.Action.Builder(R.drawable.ic_action_replay, "Reset", resetPendingIntent).build());
+        extender.addAction(new Notification.Action.Builder(R.drawable.ic_play, "Start", startPendingIntent).build());
+        extender.addAction(new Notification.Action.Builder(R.drawable.ic_reset, "Reset", resetPendingIntent).build());
     }
 
     private void buildRunningActions(Notification.WearableExtender extender) {
         PendingIntent stopPendingIntent = PendingIntent.getBroadcast(context, ID_STOP, STOP_INTENT, PendingIntent.FLAG_UPDATE_CURRENT);
-        extender.addAction(new Notification.Action.Builder(R.drawable.ic_action_stop, "Stop", stopPendingIntent).build());
+        extender.addAction(new Notification.Action.Builder(R.drawable.ic_stop, "Stop", stopPendingIntent).build());
     }
 
     private String buildNotificationTitle(PomodoroTimer timer) {
