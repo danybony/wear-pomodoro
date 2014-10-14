@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="app_name">Pomodoro</string>
+  <string name="app_name_alternative">Pomodoro timer</string>
+  <string name="title_work">Pausa in %1$s min</string>
+  <string name="title_small_break">Al lavoro in %1$s min</string>
+  <string name="title_long_break">Al lavoro in %1$s min</string>
+  <string name="title_stopped">Pomodoro fermato</string>
+
+</resources>
