@@ -3,9 +3,9 @@
 
   <string name="app_name">Pomodoro</string>
   <string name="app_name_alternative">Pomodoro timer</string>
-  <string name="title_work">Pausa in %1$s min</string>
-  <string name="title_small_break">Al lavoro in %1$s min</string>
-  <string name="title_long_break">Al lavoro in %1$s min</string>
+  <string name="title_work">%1$s min prima della pausa</string>
+  <string name="title_small_break">%1$s min di pausa</string>
+  <string name="title_long_break">%1$s min di pausa</string>
   <string name="title_stopped">Pomodoro fermato</string>
   <string name="action_start">Avvia</string>
   <string name="action_stop">Stop</string>
