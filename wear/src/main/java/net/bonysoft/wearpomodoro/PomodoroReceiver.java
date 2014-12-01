@@ -12,7 +12,6 @@ import android.support.v4.app.NotificationManagerCompat;
 public class PomodoroReceiver extends BroadcastReceiver {
     public static final String ACTION_START = "net.bonysoft.wearpomodoro.ACTION_START";
     public static final String ACTION_STOP = "net.bonysoft.wearpomodoro.ACTION_STOP";
-    public static final String ACTION_RESET = "net.bonysoft.wearpomodoro.ACTION_RESET";
     public static final String ACTION_UPDATE = "net.bonysoft.wearpomodoro.ACTION_UPDATE";
     public static final String ACTION_INTERVAL_END_ALARM = "net.bonysoft.wearpomodoro.ACTION_INTERVAL_END_ALARM";
 
@@ -43,8 +42,6 @@ public class PomodoroReceiver extends BroadcastReceiver {
         } else if (intent.getAction().equals(ACTION_STOP)) {
             stop(context, timer);
             shouldUpdate = true;
-        } else if (intent.getAction().equals(ACTION_RESET)) {
-            reset(timer);
         } else if (intent.getAction().equals(ACTION_INTERVAL_END_ALARM)) {
             nextInterval(context, timer);
             endIntervalAlarm(context, timer);
@@ -60,10 +57,6 @@ public class PomodoroReceiver extends BroadcastReceiver {
         Notification notification = builder.buildNotification();
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.notify(NOTIFICATION_ID, notification);
-    }
-
-    private void reset(PomodoroTimer pomodoroTimer) {
-        pomodoroTimer.reset();
     }
 
     private void stop(Context context, PomodoroTimer pomodoroTimer) {

@@ -10,12 +10,10 @@ public class NotificationBuilder {
 
     private static final Intent START_INTENT = new Intent(PomodoroReceiver.ACTION_START);
     private static final Intent STOP_INTENT = new Intent(PomodoroReceiver.ACTION_STOP);
-    private static final Intent RESET_INTENT = new Intent(PomodoroReceiver.ACTION_RESET);
 
     private static final int ID_ACTIVITY = 1;
     private static final int ID_START = 2;
     private static final int ID_STOP = 3;
-    private static final int ID_RESET = 6;
 
     private final Context context;
     private final PomodoroTimer pomodoroTimer;
@@ -27,11 +25,9 @@ public class NotificationBuilder {
 
     public Notification buildNotification() {
         Intent activityIntent = new Intent(context, MainActivity.class);
-        PendingIntent activityPendingIntent = PendingIntent.getActivity(context, ID_ACTIVITY, activityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Notification.Builder builder = new Notification.Builder(context);
         Notification.WearableExtender extender = new Notification.WearableExtender();
         extender.setBackground(BitmapFactory.decodeResource(context.getResources(), R.drawable.pomodoro_background));
-        // extender.setDisplayIntent(activityPendingIntent);
         boolean ongoing = true;
         if (pomodoroTimer.isRunning()) {
             buildRunningActions(extender);
@@ -51,10 +47,7 @@ public class NotificationBuilder {
 
     private void buildStoppedActions(Notification.WearableExtender extender) {
         PendingIntent startPendingIntent = PendingIntent.getBroadcast(context, ID_START, START_INTENT, PendingIntent.FLAG_UPDATE_CURRENT);
-        PendingIntent resetPendingIntent = PendingIntent.getBroadcast(context, ID_RESET, RESET_INTENT, PendingIntent.FLAG_UPDATE_CURRENT);
         extender.addAction(new Notification.Action.Builder(R.drawable.ic_play, context.getString(R.string.action_start), startPendingIntent).build());
-        extender.addAction(new Notification.Action.Builder(R.drawable.ic_reset, context.getString(R.string.action_reset),
-                resetPendingIntent).build());
     }
 
     private void buildRunningActions(Notification.WearableExtender extender) {

@@ -124,30 +124,10 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
     }
 
     public void stop() {
-        reset();
-        save();
-    }
-
-    public void pause() {
-//        currentStoppage = System.currentTimeMillis();
-        save();
-    }
-
-    public void resume() {
-//        totalStoppages += System.currentTimeMillis() - currentStoppage;
-//        currentStoppage = 0L;
-        save();
-    }
-
-    public void reset() {
-        resetWithoutSave();
-        save();
-    }
-
-    private void resetWithoutSave() {
         intervalStart = 0L;
         currentPomodoro = 0;
         currentStatus = Status.IDLE;
+        save();
     }
 
     public long getElapsed() {
