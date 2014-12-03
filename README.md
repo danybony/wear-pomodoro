@@ -5,7 +5,10 @@ Wear Tomato
 
 **Wear Tomato** is a pomodoro timer for your Android Wear watch.
 
-**Instructions**
+![Icon](https://raw.githubusercontent.com/danybony/wear-pomodoro/master/screenshots/en/round_1.png)
+![Icon](https://raw.githubusercontent.com/danybony/wear-pomodoro/master/screenshots/en/square_3.png)
+
+**Usage**
 * Pair your device with watch.
 * Install the application
 * Run the app from your watch with **OK Google... start Tomato**
