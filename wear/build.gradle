@@ -3,19 +3,19 @@ apply plugin: 'com.android.application'
 apply from: "../team-props/environment-properties.gradle"
 
 android {
-    compileSdkVersion 20
-    buildToolsVersion "20.0.0"
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
 
     defaultConfig {
         applicationId "net.bonysoft.wearpomodoro"
         minSdkVersion 20
-        targetSdkVersion 20
+        targetSdkVersion 21
         versionCode GLOBAL_VERSION_CODE
         versionName GLOBAL_VERSION_NAME
     }
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
