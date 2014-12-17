@@ -33,23 +33,18 @@ public class PomodoroReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         PomodoroTimer timer = PomodoroTimer.newInstance(context);
-        boolean shouldUpdate = false;
         if (intent.getAction().equals(ACTION_UPDATE)) {
-            shouldUpdate = true;
+            // Just update the notification
         } else if (intent.getAction().equals(ACTION_START)) {
             start(context, timer);
-            shouldUpdate = true;
         } else if (intent.getAction().equals(ACTION_STOP)) {
             stop(context, timer);
-            shouldUpdate = true;
         } else if (intent.getAction().equals(ACTION_INTERVAL_END_ALARM)) {
             nextInterval(context, timer);
             endIntervalAlarm(context, timer);
         }
 
-        if (shouldUpdate) {
-            updateNotification(context, timer);
-        }
+        updateNotification(context, timer);
     }
 
     private void updateNotification(Context context, PomodoroTimer timer) {
