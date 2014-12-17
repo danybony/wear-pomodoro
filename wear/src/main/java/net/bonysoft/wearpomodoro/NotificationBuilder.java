@@ -82,7 +82,7 @@ public class NotificationBuilder {
         int elapsedMinutes = timer.getElapsedMinutes();
         int remainingMinutes = totalMinutes - elapsedMinutes;
 
-        if (remainingMinutes >= 1) {
+        if (remainingMinutes > 1) {
             return String.valueOf(remainingMinutes);
         } else {
             return "< 1";
