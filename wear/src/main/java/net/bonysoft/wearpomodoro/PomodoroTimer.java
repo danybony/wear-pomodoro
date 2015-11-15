@@ -27,20 +27,23 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
     private PomodoroStatus currentStatus;
 
     private final SharedPreferences preferences;
+    private final DurationsPersister durationsPersister;
 
     public static PomodoroTimer newInstance(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
         long start = preferences.getLong(KEY_START, 0);
         int currentPomodoro = preferences.getInt(KEY_CURRENT_POMODORO, 0);
         PomodoroStatus currentStatus = PomodoroStatus.from(preferences.getInt(KEY_CURRENT_STATUS, PomodoroStatus.IDLE.getSerialisedValue()));
-        return new PomodoroTimer(preferences, start, currentPomodoro, currentStatus);
+        DurationsPersister durationsPersister = new DurationsPersister(preferences);
+        return new PomodoroTimer(preferences, start, currentPomodoro, currentStatus, durationsPersister);
     }
 
-    private PomodoroTimer(SharedPreferences preferences, long intervalStart, int currentPomodoro, PomodoroStatus currentStatus) {
+    private PomodoroTimer(SharedPreferences preferences, long intervalStart, int currentPomodoro, PomodoroStatus currentStatus, DurationsPersister durationsPersister) {
         this.preferences = preferences;
         this.intervalStart = intervalStart;
         this.currentPomodoro = currentPomodoro;
         this.currentStatus = currentStatus;
+        this.durationsPersister = durationsPersister;
     }
 
     public void start() {
@@ -74,7 +77,7 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
     }
 
     public int getIntervalDurationMinutes() {
-        return currentStatus.getDurationMinutes();
+        return durationsPersister.getDurationFor(currentStatus);
     }
 
     public void stop() {

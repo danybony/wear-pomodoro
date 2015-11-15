@@ -8,12 +8,12 @@ enum PomodoroStatus {
 
     private int serialisedValue;
     private long[] vibrationPattern;
-    private int durationMinutes;
+    private int defaultDurationMinutes;
 
-    PomodoroStatus(int serialisedValue, long[] vibrationPattern, int durationMinutes) {
+    PomodoroStatus(int serialisedValue, long[] vibrationPattern, int defaultDurationMinutes) {
         this.serialisedValue = serialisedValue;
         this.vibrationPattern = vibrationPattern;
-        this.durationMinutes = durationMinutes;
+        this.defaultDurationMinutes = defaultDurationMinutes;
     }
 
     public int getSerialisedValue() {
@@ -24,8 +24,8 @@ enum PomodoroStatus {
         return vibrationPattern;
     }
 
-    public int getDurationMinutes() {
-        return durationMinutes;
+    public int getDefaultDurationMinutes() {
+        return defaultDurationMinutes;
     }
 
     public static PomodoroStatus from(int serialisedValue) {
