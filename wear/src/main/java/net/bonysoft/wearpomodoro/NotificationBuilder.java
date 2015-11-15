@@ -68,7 +68,7 @@ public class NotificationBuilder {
         }
     }
 
-    private int getPriorityForStatus(PomodoroTimer.Status status) {
+    private int getPriorityForStatus(PomodoroStatus status) {
         switch (status) {
             case WORK:
                 return Notification.PRIORITY_MAX;

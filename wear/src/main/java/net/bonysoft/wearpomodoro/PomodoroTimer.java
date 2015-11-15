@@ -18,59 +18,13 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
     public static final long[] SMALL_BREAK_START_PATTERN = new long[]{0, 1000, 500, 1000, 500, 1000};
     public static final long[] LONG_BREAK_START_PATTERN = new long[]{0, 1000, 500, 1000, 500, 1000};
 
-    private static final int IDLE_INTERVAL_MINUTES = 0;
-    private static final int WORK_INTERVAL_MINUTES = 25;
-    private static final int SMALL_BREAK_MINUTES = 5;
-    private static final int LONG_BREAK_MINUTES = 15;
     private static final int POMODORI_BEFORE_LONG_BREAK = 4;
     private static final int MINUTE_MILLIS = 60000;
-
-    static enum Status {
-        IDLE(-1, IDLE_START_PATTERN, IDLE_INTERVAL_MINUTES),
-        WORK(0, WORK_START_PATTERN, WORK_INTERVAL_MINUTES),
-        SMALL_BREAK(1, SMALL_BREAK_START_PATTERN, SMALL_BREAK_MINUTES),
-        LONG_BREAK(2, LONG_BREAK_START_PATTERN, LONG_BREAK_MINUTES);
-
-        private int serialisedValue;
-        private long[] vibrationPattern;
-        private int durationMinutes;
-
-        Status(int serialisedValue, long[] vibrationPattern, int durationMinutes) {
-            this.serialisedValue = serialisedValue;
-            this.vibrationPattern = vibrationPattern;
-            this.durationMinutes = durationMinutes;
-        }
-
-        public int getSerialisedValue() {
-            return serialisedValue;
-        }
-
-        public long[] getVibrationPattern() {
-            return vibrationPattern;
-        }
-
-        public int getDurationMinutes() {
-            return durationMinutes;
-        }
-
-        public static Status from(int serialisedValue) {
-            switch (serialisedValue) {
-                case 0:
-                    return WORK;
-                case 1:
-                    return SMALL_BREAK;
-                case 2:
-                    return LONG_BREAK;
-                default:
-                    return IDLE;
-            }
-        }
-    }
 
     private long intervalStart;
 
     private int currentPomodoro;
-    private Status currentStatus;
+    private PomodoroStatus currentStatus;
 
     private final SharedPreferences preferences;
 
@@ -78,11 +32,11 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
         SharedPreferences preferences = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
         long start = preferences.getLong(KEY_START, 0);
         int currentPomodoro = preferences.getInt(KEY_CURRENT_POMODORO, 0);
-        Status currentStatus = Status.from(preferences.getInt(KEY_CURRENT_STATUS, Status.IDLE.getSerialisedValue()));
+        PomodoroStatus currentStatus = PomodoroStatus.from(preferences.getInt(KEY_CURRENT_STATUS, PomodoroStatus.IDLE.getSerialisedValue()));
         return new PomodoroTimer(preferences, start, currentPomodoro, currentStatus);
     }
 
-    private PomodoroTimer(SharedPreferences preferences, long intervalStart, int currentPomodoro, Status currentStatus) {
+    private PomodoroTimer(SharedPreferences preferences, long intervalStart, int currentPomodoro, PomodoroStatus currentStatus) {
         this.preferences = preferences;
         this.intervalStart = intervalStart;
         this.currentPomodoro = currentPomodoro;
@@ -101,15 +55,15 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
             case IDLE:
             case SMALL_BREAK:
             case LONG_BREAK:
-                currentStatus = Status.WORK;
+                currentStatus = PomodoroStatus.WORK;
                 save();
                 break;
             case WORK:
                 currentPomodoro++;
                 if (currentPomodoro % POMODORI_BEFORE_LONG_BREAK == 0) {
-                    currentStatus = Status.LONG_BREAK;
+                    currentStatus = PomodoroStatus.LONG_BREAK;
                 } else {
-                    currentStatus = Status.SMALL_BREAK;
+                    currentStatus = PomodoroStatus.SMALL_BREAK;
                 }
                 save();
                 break;
@@ -126,7 +80,7 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
     public void stop() {
         intervalStart = 0L;
         currentPomodoro = 0;
-        currentStatus = Status.IDLE;
+        currentStatus = PomodoroStatus.IDLE;
         save();
     }
 
@@ -141,7 +95,7 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
         return currentPomodoro;
     }
 
-    public Status getStatus() {
+    public PomodoroStatus getStatus() {
         return currentStatus;
     }
 
@@ -178,7 +132,7 @@ public class PomodoroTimer implements SharedPreferences.OnSharedPreferenceChange
         if (key.equals(KEY_CURRENT_POMODORO)) {
             currentPomodoro = sharedPreferences.getInt(KEY_CURRENT_POMODORO, 0);
         } else if (key.equals(KEY_CURRENT_POMODORO)) {
-            currentStatus = Status.from(sharedPreferences.getInt(KEY_CURRENT_STATUS, Status.IDLE.getSerialisedValue()));
+            currentStatus = PomodoroStatus.from(sharedPreferences.getInt(KEY_CURRENT_STATUS, PomodoroStatus.IDLE.getSerialisedValue()));
         } else if (key.equals(KEY_START)) {
             intervalStart = sharedPreferences.getLong(key, 0L);
 

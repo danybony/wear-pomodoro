@@ -101,7 +101,7 @@ public class PomodoroReceiver extends BroadcastReceiver {
 
     private void endIntervalAlarm(Context context, PomodoroTimer timer) {
         Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        PomodoroTimer.Status currentStatus = timer.getStatus();
+        PomodoroStatus currentStatus = timer.getStatus();
         vibrator.vibrate(currentStatus.getVibrationPattern(), -1);
     }
 }
