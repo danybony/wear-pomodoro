@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+       <color name="confirmation_circle_border">#1461e9</color>
+       <color name="confirmation_circle_center">#27aae9</color>
+</resources>

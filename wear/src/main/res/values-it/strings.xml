@@ -7,6 +7,8 @@
   <string name="title_small_break">%1$s min di pausa</string>
   <string name="title_long_break">%1$s min di pausa</string>
   <string name="title_stopped">Pomodoro fermato</string>
+  <string name="confirm_start">Avvio pomodoro</string>
+  <string name="summary_message">Avvio pomodoro\n%1$d min di lavoro\n%2$d min di pausa</string>
   <string name="action_start">Avvia</string>
   <string name="action_stop">Stop</string>
   <string name="action_reset">Reset</string>

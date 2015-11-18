@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.wearable.view.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="15dp"
+  tools:context=".MainActivity">
+
+  <FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    app:layout_box="all">
+
+    <TextView
+      android:id="@+id/summary"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="top|center_horizontal"
+      android:fontFamily="sans-serif-condensed"
+      android:gravity="center"
+      tools:text="Starting tomato\n25 min working periods\n5 min small breaks" />
+
+    <android.support.wearable.view.DelayedConfirmationView
+      android:id="@+id/delayed_confirm"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom|center_horizontal"
+      android:src="@drawable/ic_settings"
+      app:circle_border_color="@color/confirmation_circle_border"
+      app:circle_border_width="@dimen/circle_border_normal_width"
+      app:circle_color="@color/confirmation_circle_center"
+      app:circle_padding="@dimen/circle_padding"
+      app:circle_radius="@dimen/circle_radius" />
+
+  </FrameLayout>
+
+</android.support.wearable.view.BoxInsetLayout>

@@ -7,6 +7,8 @@
   <string name="title_small_break">%1$s more min break</string>
   <string name="title_long_break">%1$s more min break</string>
   <string name="title_stopped">Tomato stopped</string>
+  <string name="confirm_start">Starting Tomato</string>
+  <string name="summary_message">Starting tomato\n%1$d min work periods\n%2$d min breaks</string>
   <string name="action_start">Start</string>
   <string name="action_stop">Stop</string>
   <string name="action_reset">Reset</string>
