@@ -12,7 +12,8 @@
     android:theme="@android:style/Theme.DeviceDefault.Light">
 
     <activity
-      android:name=".MainActivity"
+      android:name="net.bonysoft.wearpomodoro.MainActivity"
+
       android:label="@string/app_name">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
@@ -21,10 +22,11 @@
       </intent-filter>
     </activity>
 
+
     <receiver
-      android:name=".PomodoroReceiver"
-      android:exported="false"
-      android:enabled="true">
+      android:name="net.bonysoft.wearpomodoro.PomodoroReceiver"
+      android:enabled="true"
+      android:exported="false">
       <intent-filter>
         <action android:name="net.bonysoft.wearpomodoro.ACTION_START" />
         <action android:name="net.bonysoft.wearpomodoro.ACTION_STOP" />
