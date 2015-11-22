@@ -7,10 +7,13 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.wearable.activity.ConfirmationActivity;
 import android.support.wearable.view.DelayedConfirmationView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
+
+import net.bonysoft.wearpomodoro.settings.SettingsActivity;
 
 public class MainActivity extends Activity implements
         DelayedConfirmationView.DelayedConfirmationListener {
@@ -67,6 +70,8 @@ public class MainActivity extends Activity implements
 
     @Override
     public void onTimerSelected(View view) {
-        //TODO: show settings
+        Intent settingsIntent = new Intent(this, SettingsActivity.class);
+        startActivity(settingsIntent);
+        finish();
     }
 }

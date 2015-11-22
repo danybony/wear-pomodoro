@@ -1,6 +1,9 @@
 package net.bonysoft.wearpomodoro;
 
-enum PomodoroStatus {
+import java.util.Arrays;
+import java.util.List;
+
+public enum PomodoroStatus {
     IDLE(-1, PomodoroTimer.IDLE_START_PATTERN, 0),
     WORK(0, PomodoroTimer.WORK_START_PATTERN, 25),
     SMALL_BREAK(1, PomodoroTimer.SMALL_BREAK_START_PATTERN, 5),
@@ -39,5 +42,13 @@ enum PomodoroStatus {
             default:
                 return IDLE;
         }
+    }
+
+    public static List<PomodoroStatus> getConfigurableStatuses() {
+        return Arrays.asList(
+                WORK,
+                SMALL_BREAK,
+                LONG_BREAK
+        );
     }
 }
