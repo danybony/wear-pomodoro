@@ -3,13 +3,13 @@ apply plugin: 'com.android.application'
 apply from: "../team-props/environment-properties.gradle"
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "net.bonysoft.wearpomodoro"
         minSdkVersion 20
-        targetSdkVersion 21
+        targetSdkVersion 23
         versionCode GLOBAL_VERSION_CODE
         versionName GLOBAL_VERSION_NAME
     }
