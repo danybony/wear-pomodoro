@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.wearable.activity.ConfirmationActivity;
 import android.support.wearable.view.DelayedConfirmationView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,12 +18,13 @@ public class MainActivity extends Activity implements
         DelayedConfirmationView.DelayedConfirmationListener {
 
     private static final long CONFIRMATION_DELAY = TimeUnit.SECONDS.toMillis(3);
+    private DelayedConfirmationView delayedView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        DelayedConfirmationView delayedView = (DelayedConfirmationView) findViewById(R.id.delayed_confirm);
+        delayedView = (DelayedConfirmationView) findViewById(R.id.delayed_confirm);
         delayedView.setListener(this);
 
         PomodoroTimer pomodoroTimer = PomodoroTimer.newInstance(this);
@@ -70,6 +70,7 @@ public class MainActivity extends Activity implements
 
     @Override
     public void onTimerSelected(View view) {
+        delayedView.reset();
         Intent settingsIntent = new Intent(this, SettingsActivity.class);
         startActivity(settingsIntent);
         finish();
