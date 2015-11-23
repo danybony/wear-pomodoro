@@ -30,6 +30,7 @@ public class MainActivity extends Activity implements
         PomodoroTimer pomodoroTimer = PomodoroTimer.newInstance(this);
         if (pomodoroTimer.isRunning()) {
             PomodoroReceiver.setUpdate(this);
+            finish();
         } else {
             updateConfigurationSummary();
             delayedView.setTotalTimeMs(CONFIRMATION_DELAY);
